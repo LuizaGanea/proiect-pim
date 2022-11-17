@@ -1,0 +1,18 @@
+
+cd jetson-inference/python/training/classification/data
+
+camera-capture /dev/video0
+
+
+
+
+
+
+cd jetson-inference
+docker/run.sh
+camera-capture /dev/video0
+cd python/training/classification
+python3 train.py --model-dir=models/test1 --batch-size=4 --workers=1 --epochs=3 data/test1/
+python3 onnx_export.py --model-dir=models/test1
+imagenet.py --model=models/test1/resnet18.onnx --labels=data/test1/labels.txt --input_blob=input_0 --output_blob=output_0 /dev/video0
+
